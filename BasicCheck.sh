@@ -15,10 +15,8 @@ if [ "$goodcompile" -ne "0" ] ; then
 fi
 valgrind --tool=memcheck --leak-check=full --error-exitcode=1 -q  ./a.out
 memcheck=$?
-echo "$memcheck"
 valgrind --tool=helgrind -q ./a.out
 racecheck=$?
-echo "$racecheck"
 final=$goodcompile$memcheck$racecheck
 if [ "$final" == "000" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check:\n"
