@@ -10,7 +10,8 @@ fi
 g++ ./$program ${@:3} &> /dev/null
 goodcompile=$?
 if [ "$goodcompile" -ne "0" ] ; then
-        echo "Not compiled well"
+        echo -e "\n\t\tCompilation: \tMemory leak: \t Race check: \n"
+        echo -e "\t\t$(tput setaf 7)Pass/$(tput setaf 1)Fail\t $(tput setaf 7)Pass/$(tput setaf 1)Fail\t  $(tput setaf 7)Pass/$(tput setaf 1)Fail\n"
         exit 7
 fi
 valgrind --tool=memcheck --leak-check=full --error-exitcode=1 -q  ./a.out &> /dev/null
