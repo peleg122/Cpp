@@ -2,7 +2,7 @@
 folder=$1
 program=$2
 cd $folder
-make ${@:3} &> /dev/null
+make &> /dev/null
 goodmake=$?
 if [ "$goodmake" -ne "0" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check: \n"
