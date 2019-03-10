@@ -1,9 +1,8 @@
 #!/bin/bash
 folder=$1
 program=$2
-arguments = ${@:3}
 cd $folder
-make $arguments &> /dev/null
+make ${@:3} &> /dev/null
 goodmake=$?
 if [ "$goodmake" -ne "0" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check: \n"
