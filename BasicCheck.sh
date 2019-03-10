@@ -13,8 +13,7 @@ valgrind --tool=memcheck --leak-check=full --error-exitcode=1 -q  $program &> /d
 memcheck=$?
 valgrind --tool=helgrind -q $program &> /dev/null
 racecheck=$?
-final=$goodcompile$memcheck$racecheck
-cd -
+final=$goodmake$memcheck$racecheck
 if [ "$final" == "000" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check:\n"
         echo -e "\t\t $(tput setaf 2)Pass/$(tput setaf 7)Fail\t $(tput setaf 2)Pass/$(tput setaf 7)Fail\t  $(tput setaf 2)Pass/$(tput setaf 7)Fail\n"
