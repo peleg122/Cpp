@@ -14,25 +14,24 @@ memcheck=$?
 valgrind --tool=helgrind -q --error-exitcode=1 ./$program &> /dev/null
 racecheck=$?
 final=$goodmake$memcheck$racecheck
-cd - &> /dev/null
+#cd - &> /dev/null
 if [ "$final" == "000" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check:\n"
         echo -e "\t\t $(tput setaf 2)Pass/$(tput setaf 7)Fail\t $(tput setaf 2)Pass/$(tput setaf 7)Fail\t  $(tput setaf 2)Pass/$(tput setaf 7)Fail\n"
         exit 0
-fi
-if [ "$final" == "010" ] ; then
+elif [ "$final" == "010" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check: \n"
         echo -e "\t\t$(tput setaf 2)Pass/$(tput setaf 7)Fail\t $(tput setaf 7)Pass/$(tput setaf 1)Fail\t  $(tput setaf 2)Pass/$(tput setaf 7)Fail\n"
         exit 2
-fi
-if [ "$final" == "001" ] ; then
+elif [ "$final" == "001" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check: \n"
         echo -e "\t\t$(tput setaf 2)Pass/$(tput setaf 7)Fail\t $(tput setaf 2)Pass/$(tput setaf 7)Fail\t  $(tput setaf 7)Pass/$(tput setaf 1)Fail\n"
         exit 1
-fi
-if [ "$final" == "011" ] ; then
+elif [ "$final" == "011" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check: \n"
         echo -e "\t\t$(tput setaf 2)Pass/$(tput setaf 7)Fail\t $(tput setaf 7)Pass/$(tput setaf 1)Fail\t  $(tput setaf 7)Pass/$(tput setaf 1)Fail\n"
         exit 3
+else
+        echo -e "\nCode Is Wrong!"
+        exit 8
 fi
-#
