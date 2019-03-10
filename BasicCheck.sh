@@ -5,20 +5,16 @@ cd $folder
 make &> /dev/null
 goodmake=$?
 if [ "$goodmake" -ne "0" ] ; then
-exit 7
-fi
-g++ ./$program ${@:3} &> /dev/null
-goodcompile=$?
-if [ "$goodcompile" -ne "0" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check: \n"
         echo -e "\t\t$(tput setaf 7)Pass/$(tput setaf 1)Fail\t $(tput setaf 7)Pass/$(tput setaf 1)Fail\t  $(tput setaf 7)Pass/$(tput setaf 1)Fail\n"
         exit 7
 fi
-valgrind --tool=memcheck --leak-check=full --error-exitcode=1 -q  ./a.out &> /dev/null
+valgrind --tool=memcheck --leak-check=full --error-exitcode=1 -q  $program &> /dev/null
 memcheck=$?
-valgrind --tool=helgrind -q ./a.out &> /dev/null
+valgrind --tool=helgrind -q $program &> /dev/null
 racecheck=$?
 final=$goodcompile$memcheck$racecheck
+cd -
 if [ "$final" == "000" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check:\n"
         echo -e "\t\t $(tput setaf 2)Pass/$(tput setaf 7)Fail\t $(tput setaf 2)Pass/$(tput setaf 7)Fail\t  $(tput setaf 2)Pass/$(tput setaf 7)Fail\n"
