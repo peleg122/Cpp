@@ -1,17 +1,18 @@
 #!/bin/bash
 folder=$1
 program=$2
+arguments = ${@:3}
 cd $folder
-make &> /dev/null
+make $arguments &> /dev/null
 goodmake=$?
 if [ "$goodmake" -ne "0" ] ; then
         echo -e "\n\t\tCompilation: \tMemory leak: \t Race check: \n"
         echo -e "\t\t$(tput setaf 7)Pass/$(tput setaf 1)Fail\t $(tput setaf 7)Pass/$(tput setaf 1)Fail\t  $(tput setaf 7)Pass/$(tput setaf 1)Fail\n"
         exit 7
 fi
-valgrind --tool=memcheck --leak-check=full --error-exitcode=1 -q  $program &> /dev/null
+valgrind --tool=memcheck --leak-check=full --error-exitcode=1 -q  ./$program &> /dev/null
 memcheck=$?
-valgrind --tool=helgrind -q $program &> /dev/null
+valgrind --tool=helgrind -q --error-exitcode=1 ./$program &> /dev/null
 racecheck=$?
 final=$goodmake$memcheck$racecheck
 if [ "$final" == "000" ] ; then
