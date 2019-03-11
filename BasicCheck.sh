@@ -9,16 +9,10 @@ if [ "$goodmake" -ne "0" ] ; then
         echo -e "\t\t$(tput setaf 7)Pass/$(tput setaf 1)Fail\t $(tput setaf 7)Pass/$(tput setaf 1)Fail\t  $(tput setaf 7)Pass/$(tput setaf 1)Fail\n"
         exit 7
 fi
-valgrind --tool=memcheck ${@:3} --error-exitcode=1 -q  ./$program &> /dev/null
+valgrind --tool=memcheck ${@:3}  --leak-check=full --error-exitcode=1 -q  ./$program &> /dev/null
 memcheck=$?
-if [ "$memcheck" -ne "0" ] ; then
-        memcheck=1
-fi
 valgrind --tool=helgrind -q --error-exitcode=1 ./$program &> /dev/null
 racecheck=$?
-if [ "$racecheck" -ne "0" ] ; then
-        racecheck=1
-fi
 final=$goodmake$memcheck$racecheck
 cd - &> /dev/null
 if [ "$final" == "000" ] ; then
