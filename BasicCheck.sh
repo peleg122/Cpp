@@ -9,7 +9,7 @@ if [ "$goodmake" -ne "0" ] ; then
         echo -e "\t\t$(tput setaf 7)Pass/$(tput setaf 1)Fail\t $(tput setaf 7)Pass/$(tput setaf 1)Fail\t  $(tput setaf 7)Pass/$(tput setaf 1)Fail\n"
         exit 7
 fi
-valgrind --tool=memcheck   --leak-check=full --error-exitcode=1 -q  ./$program &> /dev/null
+valgrind --tool=memcheck ${@:3} --error-exitcode=1 -q  ./$program &> /dev/null
 memcheck=$?
 if [ "$memcheck" -ne "0" ] ; then
         memcheck=1
